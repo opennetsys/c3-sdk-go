@@ -12,7 +12,7 @@ import (
 	"github.com/c3systems/c3/common/stringutil"
 	c3config "github.com/c3systems/c3/config"
 	"github.com/c3systems/c3/core/server"
-	loghooks "github.com/c3systems/c3/logger/hooks"
+	loghooks "github.com/c3systems/c3/log/hooks"
 )
 
 var (

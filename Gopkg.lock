@@ -8,9 +8,9 @@
     "common/stringutil",
     "config",
     "core/server",
-    "logger/hooks"
+    "log/hooks"
   ]
-  revision = "a35b850217d9af710cb753de5f6f5364ef54f95a"
+  revision = "3f05fe9329f98e7e32b5ad63b40b8041b10be937"
 
 [[projects]]
   name = "github.com/sirupsen/logrus"
@@ -36,6 +36,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "c722f48dca20418bc8d5bc561d86d3b03997ad32e53cee67f4a90374333bef3e"
+  inputs-digest = "69fbd8901219877fb6c99f1ba07dd1bf2338e3247a92b0caae5f1128c12175cc"
   solver-name = "gps-cdcl"
   solver-version = 1
