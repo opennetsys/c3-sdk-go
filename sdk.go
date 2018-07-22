@@ -87,9 +87,27 @@ func (c3 *C3) RegisterMethod(methodName string, types []string, ifn interface{})
 			log.Printf("[c3] executed method %s with args: %s %s", methodName, key, value)
 			err := v(key, value)
 			if err != nil {
-				log.Error("[c3] method failed %s", err)
+				log.Errorf("[c3] method failed %s", err)
 				log.Fatalf("[c3] %s", err)
 			}
+		case func(string, string) (string, error):
+			key, ok := args[0].(string)
+			if !ok {
+				return errors.New("not ok")
+			}
+			value, ok := args[1].(string)
+			if !ok {
+				return errors.New("not ok")
+			}
+
+			log.Printf("[c3] executed method %s with args: %s %s", methodName, key, value)
+			str, err := v(key, value)
+			if err != nil {
+				log.Errorf("[c3] method failed %s", err)
+				log.Fatalf("[c3] %s", err)
+			}
+
+			log.Printf("[c3] result %s", str)
 		}
 		return nil
 	}
