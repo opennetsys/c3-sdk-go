@@ -1,6 +1,7 @@
 package sdk
 
 import (
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -9,10 +10,10 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/c3systems/c3/common/stringutil"
-	c3config "github.com/c3systems/c3/config"
-	"github.com/c3systems/c3/core/server"
-	loghooks "github.com/c3systems/c3/logger/hooks"
+	"github.com/c3systems/c3-go/common/stringutil"
+	c3config "github.com/c3systems/c3-go/config"
+	"github.com/c3systems/c3-go/core/server"
+	loghooks "github.com/c3systems/c3-go/log/hooks"
 )
 
 var (
@@ -87,9 +88,27 @@ func (c3 *C3) RegisterMethod(methodName string, types []string, ifn interface{})
 			log.Printf("[c3] executed method %s with args: %s %s", methodName, key, value)
 			err := v(key, value)
 			if err != nil {
-				log.Error("[c3] method failed %s", err)
+				log.Errorf("[c3] method failed %s", err)
 				log.Fatalf("[c3] %s", err)
 			}
+		case func(string, string) (string, error):
+			key, ok := args[0].(string)
+			if !ok {
+				return errors.New("not ok")
+			}
+			value, ok := args[1].(string)
+			if !ok {
+				return errors.New("not ok")
+			}
+
+			log.Printf("[c3] executed method %s with args: %s %s", methodName, key, value)
+			str, err := v(key, value)
+			if err != nil {
+				log.Errorf("[c3] method failed %s", err)
+				log.Fatalf("[c3] %s", err)
+			}
+
+			log.Printf("[c3] result %s", str)
 		}
 		return nil
 	}
@@ -111,9 +130,8 @@ func (c3 *C3) State() *State {
 }
 
 // Set ...
-// TODO: accept interfaces
-func (s *State) Set(key, value string) error {
-	s.state[key] = value
+func (s *State) Set(key, value []byte) error {
+	s.state[hex.EncodeToString(key)] = hex.EncodeToString(value)
 	fmt.Println("setting state k/v", key, value)
 	fmt.Println("latest state:", s.state)
 
@@ -137,10 +155,13 @@ func (s *State) Set(key, value string) error {
 }
 
 // Get ...
-// TODO: accept interfaces
-func (s *State) Get(key string) string {
-	v := s.state[key]
-	return v
+func (s *State) Get(key []byte) ([]byte, bool) {
+	value, ok := s.state[hex.EncodeToString(key)]
+	v, err := hex.DecodeString(value)
+	if err != nil {
+		return nil, false
+	}
+	return v, ok
 }
 
 func (c3 *C3) setInitialState() error {
@@ -157,6 +178,8 @@ func (c3 *C3) setInitialState() error {
 			return nil
 		}
 
+		log.Println("attempting to load initial state", string(src))
+
 		b, err := stringutil.CompactJSON(src)
 		if err != nil {
 			log.Errorf("[c3] failed to compact %s", err)
@@ -171,6 +194,8 @@ func (c3 *C3) setInitialState() error {
 	} else {
 		log.Error("[c3] state file not found")
 	}
+
+	log.Println("initial state loaded")
 
 	return nil
 }
