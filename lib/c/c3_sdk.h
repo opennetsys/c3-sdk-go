@@ -65,11 +65,19 @@ extern "C" {
 #endif
 
 
+// Build must be called first and is used to construct the library
+
 extern void Build();
+
+// RegisterMethod is used to mount a method or function
 
 extern void RegisterMethod(char* p0, char** p1, int p2, void* p3);
 
+// Serve starts the server
+
 extern void Serve();
+
+// Set is used to set a value to the state
 
 extern void Set(char* p0, char* p1);
 
@@ -78,6 +86,8 @@ struct Get_return {
 	char* r0;
 	int r1;
 };
+
+// Get is used to retrieve a value from the state
 
 extern struct Get_return Get(char* p0);
 
