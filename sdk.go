@@ -9,7 +9,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/c3systems/c3-go/common/hashing"
+	"github.com/c3systems/c3-go/common/hashutil"
 	"github.com/c3systems/c3-go/common/hexutil"
 	"github.com/c3systems/c3-go/common/stringutil"
 	c3config "github.com/c3systems/c3-go/config"
@@ -71,7 +71,7 @@ func NewC3() *C3 {
 
 // RegisterMethod ...
 func (c3 *C3) RegisterMethod(methodName string, types []string, ifn interface{}) error {
-	methodNameHash := hashing.HashToHexString([]byte(methodName))
+	methodNameHash := hashutil.HashToHexString([]byte(methodName))
 	if _, ok := c3.registeredMethods[methodNameHash]; ok {
 		return ErrMethodAlreadyRegistered
 	}
@@ -135,7 +135,7 @@ func (c3 *C3) RegisterMethod(methodName string, types []string, ifn interface{})
 func (c3 *C3) Serve() {
 	server.NewServer(&server.Config{
 		Host:     c3config.ServerHost,
-		Port:     c3config.ServerPort,
+		Port:     c3config.DefaultServerPort,
 		Receiver: c3.receiver,
 	}).Run()
 }
