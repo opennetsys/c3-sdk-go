@@ -119,7 +119,7 @@ func (c3 *C3) RegisterMethod(methodName string, types []string, ifn interface{})
 func (c3 *C3) Serve() {
 	server.NewServer(&server.Config{
 		Host:     c3config.ServerHost,
-		Port:     c3config.ServerPort,
+		Port:     c3config.DefaultServerPort,
 		Receiver: c3.receiver,
 	}).Run()
 }
