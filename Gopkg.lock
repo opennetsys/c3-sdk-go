@@ -19,12 +19,11 @@
 
 [[projects]]
   branch = "develop"
-  digest = "1:25341550035c8fdcae8b81b237af876509b861852f2c0649a576a04ed48b76d7"
+  digest = "1:8d2b0806718bcfa22882babdb6d014d6ebecf89cb93e60764ac5854f5380b700"
   name = "github.com/c3systems/c3-go"
   packages = [
     "common/c3crypto",
     "common/dirutil",
-    "common/hashutil",
     "common/hexutil",
     "common/ipnsutil",
     "common/stringutil",
@@ -107,8 +106,8 @@
   name = "github.com/mr-tron/base58"
   packages = ["base58"]
   pruneopts = "UT"
-  revision = "d724c80ecac7b49e4e562d58b2b4f4ee4ed8c312"
-  version = "v1.0.0"
+  revision = "89529c6904fcd077434931b4eac8b4b2f0991baf"
+  version = "v1.1.0"
 
 [[projects]]
   digest = "1:c0ea71365e7d0e63a2e8f48e6fc2ba92f2f2b739bbeb3cdabdcd719037e175c2"
@@ -144,7 +143,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:03cbb78558e0518dada3d1892fe21098bc3acf8dfa9258b21ecce68345ff0699"
+  digest = "1:20211c54fcdc1c6b8b9cfcfc69734e4b03cbae569765cd5b8c0c6b47f30cc02a"
   name = "golang.org/x/crypto"
   packages = [
     "blake2s",
@@ -154,11 +153,11 @@
     "ssh/terminal",
   ]
   pruneopts = "UT"
-  revision = "0c41d7ab0a0ee717d4590a44bcb987dfd9e183eb"
+  revision = "bc7917b19d8f099105de72dc62898400be07c984"
 
 [[projects]]
   branch = "master"
-  digest = "1:9499e4b3284b485c77e0b08c20392d1add88a982fba2468fc01a45a025110df5"
+  digest = "1:dd2885ee8449be60c4c7cb8d9a21ec1b615a4449b463dbecadb16c1cedb0748d"
   name = "golang.org/x/sys"
   packages = [
     "cpu",
@@ -166,16 +165,13 @@
     "windows",
   ]
   pruneopts = "UT"
-  revision = "fa43e7bc11baaae89f3f902b2b4d832b68234844"
+  revision = "d69651ed3497faee15a5363a89578e9991f6d5e2"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/c3systems/c3-go/common/hashutil",
-    "github.com/c3systems/c3-go/common/hexutil",
     "github.com/c3systems/c3-go/common/stringutil",
-    "github.com/c3systems/c3-go/common/txparamcoder",
     "github.com/c3systems/c3-go/config",
     "github.com/c3systems/c3-go/core/server",
     "github.com/c3systems/c3-go/log/hooks",
