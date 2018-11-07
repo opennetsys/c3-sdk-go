@@ -164,26 +164,3 @@ func pledgeAvailable(maj, min int, execpromises string) error {
 
 	return nil
 }
-
-// majmin returns major and minor version number for an OpenBSD system.
-func majmin() (major int, minor int, err error) {
-	var v Utsname
-	err = Uname(&v)
-	if err != nil {
-		return
-	}
-
-	major, err = strconv.Atoi(string(v.Release[0]))
-	if err != nil {
-		err = errors.New("cannot parse major version number returned by uname")
-		return
-	}
-
-	minor, err = strconv.Atoi(string(v.Release[2]))
-	if err != nil {
-		err = errors.New("cannot parse minor version number returned by uname")
-		return
-	}
-
-	return
-}

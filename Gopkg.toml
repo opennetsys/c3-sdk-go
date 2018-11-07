@@ -1,6 +1,6 @@
 [[constraint]]
-  branch = "develop"
   name = "github.com/c3systems/c3-go"
+  branch = "develop"
 
 [[constraint]]
   name = "github.com/sirupsen/logrus"
