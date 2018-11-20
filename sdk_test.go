@@ -3,6 +3,8 @@ package sdk
 import (
 	"fmt"
 	"testing"
+
+	"github.com/c3systems/c3-go/common/txparamcoder"
 )
 
 func TestRegisterMethod(t *testing.T) {
@@ -10,7 +12,7 @@ func TestRegisterMethod(t *testing.T) {
 	c3 := NewC3()
 
 	err := c3.RegisterMethod("setItem", []string{"string", "string"}, func(key, value string) error {
-		fmt.Println("test setItem called with:", key, value)
+		fmt.Printf("test setItem called with: %s %s", key, value)
 		return nil
 	})
 	if err != nil {
@@ -52,7 +54,18 @@ func TestState(t *testing.T) {
 		t.Error(err)
 	}
 
-	err = c3.Process([]byte(`[["setItem", "foo", "bar"],["setItem", "hello", "world"]]`))
+	err = c3.process(txparamcoder.AppendJSONArrays(
+		txparamcoder.ToJSONArray(
+			txparamcoder.EncodeMethodName("setItem"),
+			txparamcoder.EncodeParam("foo"),
+			txparamcoder.EncodeParam("bar"),
+		),
+		txparamcoder.ToJSONArray(
+			txparamcoder.EncodeMethodName("setItem"),
+			txparamcoder.EncodeParam("hello"),
+			txparamcoder.EncodeParam("mars"),
+		),
+	))
 	if err != nil {
 		t.Error(err)
 	}
@@ -69,7 +82,7 @@ func TestState(t *testing.T) {
 	if !found {
 		t.Error("expected value")
 	}
-	if string(value) != "world" {
+	if string(value) != "mars" {
 		t.Errorf("expected match; got %s", value)
 	}
 }
